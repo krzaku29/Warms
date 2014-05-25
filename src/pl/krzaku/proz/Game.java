@@ -6,8 +6,9 @@ package pl.krzaku.proz;
 
 import org.newdawn.slick.*;
 
-import pl.krzaku.proz.model.GameMap;
-import pl.krzaku.proz.util.MapGenerator;
+import pl.krzaku.proz.util.Rectangle;
+import pl.krzaku.proz.model.GameState;
+import pl.krzaku.proz.model.LaserBullet;
 
 /**
  * Main game class. Starting point for everything else.
@@ -16,7 +17,12 @@ import pl.krzaku.proz.util.MapGenerator;
 public class Game extends BasicGame
 {
 	private static AppGameContainer appGameContainer;
-	private static GameMap map;
+	private static Input input;
+	private static GameState gameState;
+
+	private static Rectangle a = new Rectangle(10, 10, 10, 10);
+	private static Rectangle b = new Rectangle(15, 5, 3, 3);
+	private static LaserBullet bul = new LaserBullet();
 	/**
 	 * Main method
 	 * @param args
@@ -48,22 +54,43 @@ public class Game extends BasicGame
 	public void render(GameContainer gameContainer, Graphics graphics) throws SlickException
 	{
 		graphics.scale(2, 2);
-		graphics.drawImage(map.getImage(), 0, 0);
+		graphics.drawImage(gameState.getMapImage(), 0, 0);
+		
+		graphics.drawRect((float)a.getPositionX(), (float)a.getPositionY(), (float)a.getRectangleWidth(), (float)a.getRectangleHeight());
+		graphics.drawRect((float)b.getPositionX(), (float)b.getPositionY(), (float)b.getRectangleWidth(), (float)b.getRectangleHeight());
+		if(input.isKeyDown(Input.KEY_W)) a.setPositionY(a.getPositionY()-1);
+		if(input.isKeyDown(Input.KEY_S)) a.setPositionY(a.getPositionY()+1);
+		if(input.isKeyDown(Input.KEY_A)) a.setPositionX(a.getPositionX()-1);
+		if(input.isKeyDown(Input.KEY_D)) a.setPositionX(a.getPositionX()+1);		
+		if(input.isKeyDown(Input.KEY_UP)) 	b.setPositionY(b.getPositionY()-1);
+		if(input.isKeyDown(Input.KEY_DOWN)) b.setPositionY(b.getPositionY()+1);
+		if(input.isKeyDown(Input.KEY_LEFT)) b.setPositionX(b.getPositionX()-1);
+		if(input.isKeyDown(Input.KEY_RIGHT))b.setPositionX(b.getPositionX()+1);
+		if(input.isKeyDown(Input.KEY_SPACE)) 
+		{
+			bul.setVelocityX(50d);
+			bul.setVelocityY(50d);
+		}
+		
+		graphics.drawOval((float)gameState.getBullet().getPositionX(), (float)gameState.getBullet().getPositionY(), 3, 3);
+		
+		if(a.contains(b)) graphics.drawString("KOLIZJA!", 10, 10);
 	}
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException
 	{
-		// TODO Auto-generated method stub
-		map = MapGenerator.getMap(100);
-		
+		input = appGameContainer.getInput();
+		gameState = new GameState(1000);
+		gameState.addBullet(new LaserBullet());
+		bul = (LaserBullet)gameState.getBullet();		
 	}
-	private static String x = "";
+	
 	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException
+	public void update(GameContainer gameContainer, int deltaTime) throws SlickException
 	{
-		// TODO Auto-generated method stub
-		x = String.valueOf(arg1);
+		input.poll(1366, 768);
+		gameState.updateGameState(deltaTime);
 	}
 
 }
