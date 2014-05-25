@@ -13,6 +13,7 @@ import pl.krzaku.proz.util.MapGenerator;
  * Main game class. Starting point for everything else.
  * @author		Patryk Majkrzak
  */
+
 public class Game extends BasicGame
 {
 	private static AppGameContainer appGameContainer;
@@ -26,8 +27,8 @@ public class Game extends BasicGame
 		try
 		{
 			appGameContainer = new AppGameContainer(new Game("Warms"));
-			appGameContainer.setFullscreen(true);
-			appGameContainer.setDisplayMode(1366, 768, true);
+			//appGameContainer.setFullscreen(true);
+			appGameContainer.setDisplayMode(1366, 768, false);
 			appGameContainer.setMinimumLogicUpdateInterval(17);
 			appGameContainer.setTargetFrameRate(60);
 			appGameContainer.start();
@@ -58,12 +59,11 @@ public class Game extends BasicGame
 		map = MapGenerator.getMap(100);
 		
 	}
-	private static String x = "";
+	
 	@Override
 	public void update(GameContainer arg0, int arg1) throws SlickException
 	{
 		// TODO Auto-generated method stub
-		x = String.valueOf(arg1);
 	}
 
 }
