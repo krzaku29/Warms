@@ -98,7 +98,7 @@ public class GameMap
 		if(modified) 
 		{
 			imageForDrawing = mapImage.getImage();
-			//imageForDrawing.setFilter(Image.FILTER_NEAREST);
+			imageForDrawing.setFilter(Image.FILTER_NEAREST);
 			modified = false;
 		}
 		return imageForDrawing;
