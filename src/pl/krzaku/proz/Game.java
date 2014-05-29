@@ -32,8 +32,8 @@ public class Game extends BasicGame
 		try
 		{
 			appGameContainer = new AppGameContainer(new Game("Warms"));
-			appGameContainer.setFullscreen(true);
-			appGameContainer.setDisplayMode(1366, 768, true);
+			appGameContainer.setFullscreen(false);
+			appGameContainer.setDisplayMode(1366, 768, false);
 			appGameContainer.setMinimumLogicUpdateInterval(17);
 			appGameContainer.setTargetFrameRate(60);
 			appGameContainer.start();

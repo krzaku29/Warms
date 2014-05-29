@@ -36,7 +36,7 @@ public class GameState
 		for(int i = 0; i<bulletList.size(); i++)
 		{
 			currentBullet.update(dt);
-			if(Test.class.isInstance(currentBullet)) gameMap.destroyTerrain(100, 100, 100);
+			
 			
 			if(MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentBullet))
 			{
