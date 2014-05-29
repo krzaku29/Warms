@@ -74,7 +74,7 @@ public class Game extends BasicGame
 		
 		graphics.drawOval((float)gameState.getBullet().getPositionX(), (float)gameState.getBullet().getPositionY(), 3, 3);
 		
-		if(a.contains(b)) graphics.drawString("KOLIZJA!", 10, 10);
+		if(a.intersects(b)) graphics.drawString("KOLIZJA!", 10, 10);
 	}
 
 	@Override

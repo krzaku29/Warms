@@ -32,19 +32,18 @@ public class GameState
 	public void updateGameState(int delta)
 	{
 		double dt = delta/1000d;
+		Iterator<Bullet> bulletListIterator = bulletList.iterator();
 		Bullet currentBullet = bulletList.getFirst();
 		for(int i = 0; i<bulletList.size(); i++)
 		{
 			currentBullet.update(dt);
-			
-			
 			if(MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentBullet))
 			{
 				gameMap.destroyTerrain(((MapCollidable) currentBullet).getMapCollisionXPoint(), 
 										((MapCollidable) currentBullet).getMapCollisionYPoint(), 
 										((MapCollidable) currentBullet).getMapExplosionRadius());
 			}
-			currentBullet = bulletList.get(i);
+			currentBullet = bulletListIterator.next();
 		}
 		
 	}
