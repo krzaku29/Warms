@@ -19,13 +19,9 @@ import pl.krzaku.proz.model.LaserBullet;
 public class Game extends BasicGame
 {
 	private static AppGameContainer appGameContainer;
-	private static Input input;
 	private static GameState gameState;
 	private static View gameView;
 
-	private static Rectangle a = new Rectangle(10, 10, 10, 10);
-	private static Rectangle b = new Rectangle(15, 5, 3, 3);
-	private static LaserBullet bul = new LaserBullet();
 	/**
 	 * Main method
 	 * @param args
@@ -62,11 +58,9 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer arg0) throws SlickException
 	{
-		input = appGameContainer.getInput();
 		gameState = new GameState(1000);
 		gameView = new View(gameState, 683, 384, 1366, 768);
 		gameState.addBullet(new LaserBullet());
-		bul = (LaserBullet)gameState.getBullet();		
 	}
 	
 	@Override

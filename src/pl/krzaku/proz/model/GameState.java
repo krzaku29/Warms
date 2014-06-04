@@ -54,11 +54,6 @@ public class GameState
 		return new Layout();
 	}
 	
-	public Bullet getBullet()
-	{
-		return bulletList.get(0);
-	}
-	
 	public Image getMapImage()
 	{
 		return gameMap.getImage();
