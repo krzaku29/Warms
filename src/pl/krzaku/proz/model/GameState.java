@@ -5,6 +5,7 @@ import java.util.*;
 import org.newdawn.slick.Image;
 
 import pl.krzaku.proz.util.MapGenerator;
+import pl.krzaku.proz.view.Layout;
 
 public class GameState
 {
@@ -46,6 +47,11 @@ public class GameState
 			currentBullet = bulletListIterator.next();
 		}
 		
+	}
+	
+	public Layout getLayout()
+	{
+		return new Layout();
 	}
 	
 	public Bullet getBullet()

@@ -35,6 +35,7 @@ public class GameMap
 	public GameMap()
 	{
 		mapImage = new ImageBuffer(mapWidth+1, mapHeight+1);
+		imageForDrawing = mapImage.getImage();
 	}
 	
 	/**
