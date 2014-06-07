@@ -6,4 +6,5 @@ public interface Renderable
 	public int getSpriteNumber();
 	public float getRenderPositionX();
 	public float getRenderPositionY();
+	public boolean isFlipped();
 }

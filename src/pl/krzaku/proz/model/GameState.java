@@ -48,6 +48,8 @@ public class GameState
 		double dt = delta/1000d;
 		ListIterator<Bullet> bulletListIterator = bulletList.listIterator();
 		Bullet currentBullet;
+		ListIterator<Tower> towerListIterator = towerList.listIterator();
+		Tower currentTower;
 		
 		while(bulletListIterator.hasNext())
 		{
@@ -55,11 +57,26 @@ public class GameState
 			currentBullet.update(dt);
 			if(currentBullet instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentBullet, dt);
 			if(currentBullet instanceof MapCollidable) MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentBullet, dt);
-			
-			
+			if(currentBullet instanceof ObjectCollidable)
+			{
+				ListIterator<Tower> iterator = towerList.listIterator();
+				Tower tower;
+				while(iterator.hasNext())
+				{
+					tower = iterator.next();
+					ObjectCollisionManager.checkObjectCollision(gameMap, (ObjectCollidable)currentBullet, (ObjectCollidable)tower, dt);
+				}				
+			}
 			if(!currentBullet.isActive()) bulletListIterator.remove();
-			
-			
+		}
+		
+		while(towerListIterator.hasNext())
+		{
+			currentTower = towerListIterator.next();
+			currentTower.update(dt);
+			if(currentTower instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentTower, dt);
+			if(currentTower instanceof MapCollidable) MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentTower, dt);
+			if(!currentTower.isActive()) towerListIterator.remove();
 		}
 		
 	}
@@ -68,12 +85,21 @@ public class GameState
 	{
 		Layout l = new Layout();
 		Bullet bullet;
+		Tower tower;
 		
 		ListIterator<Bullet> bulletIterator = bulletList.listIterator();
+		ListIterator<Tower> towerIterator = towerList.listIterator();
+		
 		while(bulletIterator.hasNext())
 		{
 			bullet = bulletIterator.next();
 			l.add((Renderable)bullet);
+		}
+		
+		while(towerIterator.hasNext())
+		{
+			tower = towerIterator.next();
+			l.add((Renderable)tower);
 		}
 		
 		return l;

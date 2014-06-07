@@ -35,7 +35,7 @@ public class Game extends BasicGame
 			appGameContainer = new AppGameContainer(new Game("Warms"));
 			appGameContainer.setDisplayMode(1366, 768, false);
 			appGameContainer.setMinimumLogicUpdateInterval(8);
-			appGameContainer.setTargetFrameRate(60);
+			//appGameContainer.setTargetFrameRate(60);
 			appGameContainer.start();
 		} 
 		catch (SlickException e)

@@ -22,6 +22,7 @@ public class MortarBullet extends Bullet implements MapCollidable, ObjectCollida
 		positionY = posY;
 		velocityX = velX;
 		velocityY = velY;
+		damage = 50;
 		active = true;
 	}
 	
@@ -46,7 +47,7 @@ public class MortarBullet extends Bullet implements MapCollidable, ObjectCollida
 	}
 
 	@Override
-	public void actOnObjectCollision(double deltaTime)
+	public void actOnObjectCollision(Object collidedObject, double deltaTime)
 	{
 		deactivate();
 	}

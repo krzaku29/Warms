@@ -8,6 +8,7 @@ public abstract class Bullet implements Renderable
 	protected double positionY;
 	protected double velocityX;
 	protected double velocityY;
+	protected double damage;
 	protected boolean active;
 	
 	public abstract void update(double deltaTime);
@@ -57,8 +58,19 @@ public abstract class Bullet implements Renderable
 		return active;
 	}
 	
+	public double getDamage()
+	{
+		return damage;
+	}
+	
 	public void deactivate()
 	{
 		this.active = false;
+	}
+	
+	@Override
+	public boolean isFlipped()
+	{
+		return false;
 	}
 }

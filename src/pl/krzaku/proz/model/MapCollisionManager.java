@@ -6,7 +6,17 @@ public final class MapCollisionManager
 {
 	public static boolean checkCollision(GameMap map, MapCollidable object, double deltaTime)
 	{
-		if(map.isTerrain(object.getMapCollisionXPoint(), object.getMapCollisionYPoint())) 
+		if(object instanceof Tower)
+		{
+			if(map.isTerrain(object.getMapCollisionXPoint(), object.getMapCollisionYPoint())) 
+			{
+				object.actOnMapCollision(deltaTime);
+				return true;
+			}
+			((Tower)object).startFalling();
+			return false;
+		}
+		else if(map.isTerrain(object.getMapCollisionXPoint(), object.getMapCollisionYPoint())) 
 		{
 			object.actOnMapCollision(deltaTime);
 			map.destroyTerrain(object.getMapCollisionXPoint(), object.getMapCollisionYPoint(), object.getMapExplosionRadius());

@@ -22,6 +22,7 @@ public class GunBullet extends Bullet implements MapCollidable, ObjectCollidable
 		positionY = posY;
 		velocityX = velX;
 		velocityY = velY;
+		damage = 5;
 		active = true;
 	}
 	
@@ -43,12 +44,6 @@ public class GunBullet extends Bullet implements MapCollidable, ObjectCollidable
 		positionX += velocityX * deltaTime;
 		positionY += velocityY * deltaTime;
 		velocityY += gravityAcceleration * deltaTime;		
-	}
-
-	@Override
-	public void actOnObjectCollision(double deltaTime)
-	{
-		deactivate();
 	}
 
 	@Override
@@ -92,5 +87,12 @@ public class GunBullet extends Bullet implements MapCollidable, ObjectCollidable
 	{
 		return (float)positionY;
 	}
+
+	@Override
+	public void actOnObjectCollision(Object collidedObject, double deltaTime)
+	{
+		deactivate();		
+	}
+	
 
 }

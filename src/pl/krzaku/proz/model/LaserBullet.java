@@ -21,6 +21,7 @@ public class LaserBullet extends Bullet implements MapCollidable, MapBorderColli
 		positionY = posY;
 		velocityX = velX;
 		velocityY = velY;
+		damage = 10;
 		active = true;
 	}
 	
@@ -56,7 +57,7 @@ public class LaserBullet extends Bullet implements MapCollidable, MapBorderColli
 	}
 
 	@Override
-	public void actOnObjectCollision(double deltaTime)
+	public void actOnObjectCollision(Object collidedObject, double deltaTime)
 	{
 		deactivate();		
 	}
