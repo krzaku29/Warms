@@ -2,7 +2,8 @@ package pl.krzaku.proz.model;
 
 public interface MapCollidable
 {
-	int getMapExplosionRadius();
-	int getMapCollisionXPoint();
-	int getMapCollisionYPoint();
+	public int getMapExplosionRadius();
+	public int getMapCollisionXPoint();
+	public int getMapCollisionYPoint();
+	public void actOnMapCollision(double deltaTime);
 }

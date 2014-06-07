@@ -2,11 +2,18 @@ package pl.krzaku.proz.util;
 
 import pl.krzaku.proz.model.GameMap;
 
+/**
+ * Map generator. Generates game maps using specified seed.
+ * @author Patryk Majkrzak
+ * @version 1.2
+ */
 public class MapGenerator
 {
-	private static final int mapWidth = 683;
-	private static final int mapHeight = 384;
-	
+	/**
+	 * Returns random noise value (always the same) for specified seed
+	 * @param x seed
+	 * @return random value for seed
+	 */
 	private static double getNoise(int x)
 	{
 		double a;
@@ -15,6 +22,13 @@ public class MapGenerator
 		return a;
 	}
 
+	/**
+	 * Returns value of cosine interpolation between two values at specified point.
+	 * @param a first value for interpolating
+	 * @param b second value for interpolating
+	 * @param x position between interpolated values from range (0,1)
+	 * @return value of cosine interpolation between two values
+	 */
 	private static double cosineInterpolate(double a, double b, double x)
 	{
 		double ft = x * 3.1415927;
@@ -24,7 +38,14 @@ public class MapGenerator
 		return a * (1 - f) + b * f;
 	}
 
-	public static GameMap getMap(int seed)
+	/**
+	 * Returns generated game map object with specified arguments
+	 * @param seed seed for generation
+	 * @param mapWidth width of map in pixels
+	 * @param mapHeight height of map in pixels
+	 * @return generated game map
+	 */
+	public static GameMap getMap(int seed, int mapWidth, int mapHeight)
 	{
 		double tab[] = new double[9];
 		GameMap genMap = new GameMap();

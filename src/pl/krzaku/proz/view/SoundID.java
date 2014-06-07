@@ -2,5 +2,6 @@ package pl.krzaku.proz.view;
 
 public enum SoundID
 {
-
+	MORTAR_SHOT,
+	MACHINE_GUN_SHOT
 }

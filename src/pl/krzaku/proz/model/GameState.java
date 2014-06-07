@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 
 import pl.krzaku.proz.util.MapGenerator;
 import pl.krzaku.proz.view.Layout;
+import pl.krzaku.proz.view.Renderable;
+
 
 public class GameState
 {
@@ -13,11 +15,22 @@ public class GameState
 	private LinkedList<Tower> towerList;
 	private LinkedList<Bullet> bulletList;
 	
+	private boolean activeTowerRotateLeft;
+	private boolean activeTowerRotateRight;
+	private boolean activeTowerMorePower;
+	private boolean activeTowerLessPower;
+	private Tower activeTower;
+	
 	public GameState(int mapSeed)
 	{
 		towerList = new LinkedList<Tower>();
 		bulletList = new LinkedList<Bullet>();
-		gameMap = MapGenerator.getMap(mapSeed);
+		gameMap = MapGenerator.getMap(mapSeed, GameMap.getMapWidth(), GameMap.getMapHeight());
+		
+		activeTowerLessPower = false;
+		activeTowerMorePower = false;
+		activeTowerRotateLeft = false;
+		activeTowerRotateRight = false;		
 	}
 	
 	public void addBullet(Bullet add)
@@ -33,29 +46,63 @@ public class GameState
 	public void updateGameState(int delta)
 	{
 		double dt = delta/1000d;
-		Iterator<Bullet> bulletListIterator = bulletList.iterator();
-		Bullet currentBullet = bulletList.getFirst();
-		for(int i = 0; i<bulletList.size(); i++)
+		ListIterator<Bullet> bulletListIterator = bulletList.listIterator();
+		Bullet currentBullet;
+		
+		while(bulletListIterator.hasNext())
 		{
-			currentBullet.update(dt);
-			if(MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentBullet))
-			{
-				gameMap.destroyTerrain(((MapCollidable) currentBullet).getMapCollisionXPoint(), 
-										((MapCollidable) currentBullet).getMapCollisionYPoint(), 
-										((MapCollidable) currentBullet).getMapExplosionRadius());
-			}
 			currentBullet = bulletListIterator.next();
+			currentBullet.update(dt);
+			if(currentBullet instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentBullet, dt);
+			if(currentBullet instanceof MapCollidable) MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentBullet, dt);
+			
+			
+			if(!currentBullet.isActive()) bulletListIterator.remove();
+			
+			
 		}
 		
 	}
 	
 	public Layout getLayout()
 	{
-		return new Layout();
+		Layout l = new Layout();
+		Bullet bullet;
+		
+		ListIterator<Bullet> bulletIterator = bulletList.listIterator();
+		while(bulletIterator.hasNext())
+		{
+			bullet = bulletIterator.next();
+			l.add((Renderable)bullet);
+		}
+		
+		return l;
 	}
 	
 	public Image getMapImage()
 	{
 		return gameMap.getImage();
 	}
+	
+	public void setActiveTowerRotateLeft(boolean activeTowerRotateLeft)
+	{
+		this.activeTowerRotateLeft = activeTowerRotateLeft;
+	}
+
+	public void setActiveTowerRotateRight(boolean activeTowerRotateRight)
+	{
+		this.activeTowerRotateRight = activeTowerRotateRight;
+	}
+
+	public void setActiveTowerMorePower(boolean activeTowerMorePower)
+	{
+		this.activeTowerMorePower = activeTowerMorePower;
+	}
+
+	public void setActiveTowerLessPower(boolean activeTowerLessPower)
+	{
+		this.activeTowerLessPower = activeTowerLessPower;
+	}
+	
+	
 }

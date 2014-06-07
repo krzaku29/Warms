@@ -1,14 +1,17 @@
 package pl.krzaku.proz.model;
 
-public abstract class Bullet
+import pl.krzaku.proz.view.Renderable;
+
+public abstract class Bullet implements Renderable
 {
 	protected double positionX;
 	protected double positionY;
 	protected double velocityX;
 	protected double velocityY;
+	protected boolean active;
 	
 	public abstract void update(double deltaTime);
-
+	
 	public double getPositionX()
 	{
 		return positionX;
@@ -47,5 +50,15 @@ public abstract class Bullet
 	public void setVelocityY(double velocityY)
 	{
 		this.velocityY = velocityY;
+	}
+	
+	public boolean isActive()
+	{
+		return active;
+	}
+	
+	public void deactivate()
+	{
+		this.active = false;
 	}
 }

@@ -1,15 +1,18 @@
 package pl.krzaku.proz.model;
 
 import pl.krzaku.proz.util.Rectangle;
+import pl.krzaku.proz.view.Renderable;
+import pl.krzaku.proz.view.SpriteID;
 
-public class LaserBullet extends Bullet implements MapCollidable, MapBorderCollidable, ObjectCollidable
+public class LaserBullet extends Bullet implements MapCollidable, MapBorderCollidable, ObjectCollidable, Renderable
 {
 	private final int bulletWidth = 3;
 	private final int bulletHeight = 3;
+	private final int explosionRadius = 5;
 	
 	public LaserBullet()
 	{
-		
+
 	}
 	
 	public LaserBullet(double posX, double posY, double velX, double velY)
@@ -18,6 +21,7 @@ public class LaserBullet extends Bullet implements MapCollidable, MapBorderColli
 		positionY = posY;
 		velocityX = velX;
 		velocityY = velY;
+		active = true;
 	}
 	
 	@Override
@@ -48,7 +52,52 @@ public class LaserBullet extends Bullet implements MapCollidable, MapBorderColli
 	@Override
 	public int getMapExplosionRadius()
 	{
-		return 3;
+		return explosionRadius;
+	}
+
+	@Override
+	public void actOnObjectCollision(double deltaTime)
+	{
+		deactivate();		
+	}
+
+	@Override
+	public void actOnMapBorderCollision(MapBorder border, double deltaTime)
+	{
+		positionX -= velocityX*deltaTime;
+		positionY -= velocityY*deltaTime;
+		if(border == MapBorder.UP || border == MapBorder.DOWN) velocityY = -velocityY;
+		if(border == MapBorder.LEFT || border == MapBorder.RIGHT) velocityX = -velocityX;
+	}
+
+	@Override
+	public void actOnMapCollision(double deltaTime)
+	{
+		deactivate();
+	}
+
+	@Override
+	public SpriteID getSpriteID()
+	{
+		return SpriteID.BULLET_LASER;
+	}
+
+	@Override
+	public int getSpriteNumber()
+	{
+		return 0;
+	}
+
+	@Override
+	public float getRenderPositionX()
+	{
+		return (float)positionX;
+	}
+
+	@Override
+	public float getRenderPositionY()
+	{
+		return (float)positionY;
 	}
 
 }

@@ -163,5 +163,24 @@ public class Rectangle
 	{
 		this.rectangleHeight = rectangleHeight;
 	}
+	
+	public double getUpperBound()
+	{
+		return positionY;
+	}
+	
+	public double getLowerBound()
+	{
+		return positionY+rectangleHeight;
+	}
+	public double getLeftBound()
+	{
+		return positionX;
+	}
+	public double getRightBound()
+	{
+		return positionX+rectangleWidth;
+	}
+	
 
 }

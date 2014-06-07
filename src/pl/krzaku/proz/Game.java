@@ -9,6 +9,7 @@ import org.newdawn.slick.*;
 import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.SpriteID;
 import pl.krzaku.proz.view.View;
+import pl.krzaku.proz.controller.MainController;
 import pl.krzaku.proz.model.GameState;
 import pl.krzaku.proz.model.LaserBullet;
 
@@ -21,6 +22,7 @@ public class Game extends BasicGame
 	private static AppGameContainer appGameContainer;
 	private static GameState gameState;
 	private static View gameView;
+	private static MainController mainController;
 
 	/**
 	 * Main method
@@ -32,7 +34,7 @@ public class Game extends BasicGame
 		{
 			appGameContainer = new AppGameContainer(new Game("Warms"));
 			appGameContainer.setDisplayMode(1366, 768, false);
-			appGameContainer.setMinimumLogicUpdateInterval(17);
+			appGameContainer.setMinimumLogicUpdateInterval(8);
 			appGameContainer.setTargetFrameRate(60);
 			appGameContainer.start();
 		} 
@@ -60,7 +62,7 @@ public class Game extends BasicGame
 	{
 		gameState = new GameState(1000);
 		gameView = new View(gameState, 683, 384, 1366, 768);
-		gameState.addBullet(new LaserBullet());
+		mainController = new MainController(appGameContainer, gameState, gameView);
 	}
 	
 	@Override
