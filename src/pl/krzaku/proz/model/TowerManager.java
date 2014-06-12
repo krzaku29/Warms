@@ -94,6 +94,7 @@ public class TowerManager
 		Tower tower;
 		for(int i = 0; i < numberOfPlayers; i++)
 		{
+			if(towerList.get(i).size() == 0) gameState.playerLost(i+1);
 			ListIterator<Tower> it = towerList.get(i).listIterator();
 			while(it.hasNext())
 			{

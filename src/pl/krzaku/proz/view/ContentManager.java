@@ -36,7 +36,8 @@ public class ContentManager
 		addSound(SoundID.LASER_SHOT, "res/sound/lasershot.wav");
 		addSound(SoundID.NORMAL_SHOT, "res/sound/tankshot.wav");
 		addSound(SoundID.EXPLOSION, "res/sound/explosion.wav");
-
+		addSound(SoundID.REPULSE, "res/sound/repulse.wav");
+		
 		addSprite(SpriteID.TOWER_LASER, "res/sprites/laser.png", 16, 24);
 		addSprite(SpriteID.TOWER_REPULSOR, "res/sprites/magnes.png",
 				16, 24);
@@ -54,6 +55,10 @@ public class ContentManager
 				"res/sprites/mortarbullet.png", 3, 3);
 		addSprite(SpriteID.BULLET_NORMAL,
 				"res/sprites/normalbullet.png", 3, 3);
+		addSprite(SpriteID.PLAYER_1_LOST,
+				"res/sprites/player1lost.png", 243, 39);
+		addSprite(SpriteID.PLAYER_2_LOST,
+				"res/sprites/player2lost.png", 243, 39);
 
 		addSprite(SpriteID.MARKER, "res/sprites/marker.png", 12, 8);
 		addSprite(SpriteID.CROSSHAIR, "res/sprites/crosshair.png", 3, 3);

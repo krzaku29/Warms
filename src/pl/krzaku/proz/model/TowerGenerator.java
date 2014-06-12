@@ -48,12 +48,13 @@ public class TowerGenerator
 		for(int i = 0; i < numberOfTowers; i++)
 		{
 			int yPosition = getGroundPosition(gameMap, xPosition);
-			int type = r.nextInt(4);
+			int type = r.nextInt(5);
 			
 			if(type == 0) list.add(new LaserTower(xPosition, yPosition, flipped));
 			if(type == 1) list.add(new GunTower(xPosition, yPosition, flipped));
 			if(type == 2) list.add(new NormalTower(xPosition, yPosition, flipped));
 			if(type == 3) list.add(new MortarTower(xPosition, yPosition, flipped));
+			if(type == 4) list.add(new RepulsorTower(xPosition, yPosition, flipped));
 			
 			xPosition += delta;
 		}

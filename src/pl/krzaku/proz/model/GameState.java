@@ -10,11 +10,13 @@ import pl.krzaku.proz.view.Layout;
 import pl.krzaku.proz.view.Marker;
 import pl.krzaku.proz.view.Renderable;
 import pl.krzaku.proz.view.SoundID;
+import pl.krzaku.proz.view.Splash;
 
 
 public class GameState
 {
 	private final int numberOfPlayers = 2;
+	private int playerLost;
 	private GameMap gameMap;
 	private TowerManager towers;
 	private LinkedList<Bullet> bulletList;
@@ -27,6 +29,7 @@ public class GameState
 		towers = new TowerManager(gameMap, mapSeed, numberOfTowers, numberOfPlayers, this);
 		bulletList = new LinkedList<Bullet>();
 		soundBuffer = new LinkedList<SoundID>();
+		playerLost = 0;
 	}
 	
 	public void addBullet(Bullet add)
@@ -37,35 +40,35 @@ public class GameState
 	public void updateGameState(int delta)
 	{
 		double deltaTime = delta/1000d;
-		
-		
-		ListIterator<Bullet> bulletListIterator = bulletList.listIterator();
-		Bullet currentBullet;
-		
-		while(bulletListIterator.hasNext())
+		if(playerLost == 0)
 		{
-			currentBullet = bulletListIterator.next();
-			currentBullet.update(deltaTime);
-			if(currentBullet instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentBullet, deltaTime);
-			if(currentBullet instanceof MapCollidable) MapCollisionManager.checkCollision(this, gameMap, (MapCollidable)currentBullet, deltaTime);
-			if(currentBullet instanceof ObjectCollidable)
+			ListIterator<Bullet> bulletListIterator = bulletList.listIterator();
+			Bullet currentBullet;
+			
+			while(bulletListIterator.hasNext())
 			{
-				for(int i = 0; i < numberOfPlayers; i++)
+				currentBullet = bulletListIterator.next();
+				currentBullet.update(deltaTime);
+				if(currentBullet instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentBullet, deltaTime);
+				if(currentBullet instanceof MapCollidable) MapCollisionManager.checkCollision(this, gameMap, (MapCollidable)currentBullet, deltaTime);
+				if(currentBullet instanceof ObjectCollidable)
 				{
-					ListIterator<Tower> iterator = towers.getTowerList(i).listIterator();
-					Tower tower;
-					while(iterator.hasNext())
+					for(int i = 0; i < numberOfPlayers; i++)
 					{
-						tower = iterator.next();
-						ObjectCollisionManager.checkObjectCollision(gameMap, (ObjectCollidable)currentBullet, (ObjectCollidable)tower, deltaTime);
-					}	
+						ListIterator<Tower> iterator = towers.getTowerList(i).listIterator();
+						Tower tower;
+						while(iterator.hasNext())
+						{
+							tower = iterator.next();
+							ObjectCollisionManager.checkObjectCollision(gameMap, (ObjectCollidable)currentBullet, (ObjectCollidable)tower, deltaTime);
+						}	
+					}
 				}
+				if(!currentBullet.isActive()) bulletListIterator.remove();
 			}
-			if(!currentBullet.isActive()) bulletListIterator.remove();
+			
+			towers.update(deltaTime);
 		}
-		
-		towers.update(deltaTime);
-		
 	}
 	
 	public Layout getLayout()
@@ -79,11 +82,18 @@ public class GameState
 
 		towers.addTowersToLayout(l);
 		
+		
 		while(bulletIterator.hasNext())
 		{
 			bullet = bulletIterator.next();
 			l.add((Renderable)bullet);
 		}
+		
+		if(playerLost != 0)
+		{
+			l.add((Renderable) new Splash(playerLost));
+		}
+		
 		
 		while(soundIterator.hasNext())
 		{
@@ -106,7 +116,24 @@ public class GameState
 		soundBuffer.add(sound);
 	}
 	
+	public void repulse(double speedX, double speedY)
+	{
+		ListIterator<Bullet> bulletListIterator = bulletList.listIterator();
+		Bullet currentBullet;
+		
+		while(bulletListIterator.hasNext())
+		{
+			currentBullet = bulletListIterator.next();
+			currentBullet.setVelocityX(currentBullet.getVelocityX()+speedX);
+			currentBullet.setVelocityY(currentBullet.getVelocityY()+speedY);
+		}
+	}
 	
+	public void playerLost(int playerNumber)
+	{
+		playerLost = playerNumber;
+	}
+
 	public void setActiveTowerRotateLeft(boolean activeTowerRotateLeft, int playerNumber)
 	{
 		towers.setActiveTowerRotateLeft(activeTowerRotateLeft, playerNumber);
