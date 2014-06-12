@@ -5,21 +5,40 @@ import java.util.ListIterator;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import pl.krzaku.proz.model.GameMap;
 import pl.krzaku.proz.model.GameState;
 
+/**
+ * Class managing rendering and playing sound in the game
+ * @author Patryk Majkrzak
+ * @version 1.3
+ */
 public class View
 {
+	///Content manager
 	private ContentManager content;
+	///State of game
 	private GameState gameState;
+	///Jukebox
 	private Jukebox jukebox;
+	///X scale between window resolution and map resolution
 	private float xScale;
+	///Y scale between window resolution and map resolution
 	private float yScale;
 
-	public View(GameState gState, int baseResolutionX, int baseResolutionY,
+	/**
+	 * Constructor. Initializes other view classes
+	 * @param gameState game state
+	 * @param baseResolutionX map X resolution
+	 * @param baseResolutionY map Y resolution
+	 * @param targetResolutionX game window X resolution
+	 * @param targetResolutionY game window Y resolution
+	 */
+	public View(GameState gameState, int baseResolutionX, int baseResolutionY,
 			int targetResolutionX, int targetResolutionY)
 	{
 		content = new ContentManager();
-		gameState = gState;
+		this.gameState = gameState;
 		jukebox = new Jukebox(this);
 		
 		content.loadJukebox(jukebox);
@@ -30,6 +49,10 @@ public class View
 		yScale = (float) targetResolutionY / baseResolutionY;
 	}
 	
+	/**
+	 * Method invoked every frame is drawn
+	 * @param graphics device to draw on
+	 */
 	public void draw(Graphics graphics)
 	{
 		Layout layout = gameState.getLayout();
@@ -77,6 +100,14 @@ public class View
 			}
 		}
 		
+		graphics.drawString("Player 1", 10, 10);
+		graphics.drawString("Tower HP: " + layout.getPlayer1ActiveTowerHealth(), 10, 20);
+		
+		graphics.drawString("Player 2", GameMap.getMapWidth()-150, 10);
+		graphics.drawString("Tower HP: " + layout.getPlayer2ActiveTowerHealth(), GameMap.getMapWidth()-150, 20);
+
+		
+		
 		while (soundIterator.hasNext())
 		{
 			sound = soundIterator.next();
@@ -85,6 +116,10 @@ public class View
 		
 	}
 
+	/**
+	 * Plays song with specified ID
+	 * @param id song ID
+	 */
 	public void playMusic(MusicID id)
 	{
 		try
@@ -96,6 +131,10 @@ public class View
 		}
 	}
 
+	/**
+	 * Plays sound with specified ID
+	 * @param id song ID
+	 */
 	public void playSound(SoundID id)
 	{
 		try

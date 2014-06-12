@@ -87,10 +87,8 @@ public class GameMap
 	 * Tests if position on map is terrain or not. If point is out of bounds it
 	 * returns false
 	 * 
-	 * @param x
-	 *            position of the point along X axis
-	 * @param y
-	 *            position of the point along Y axis
+	 * @param x position of the point along X axis
+	 * @param y position of the point along Y axis
 	 * @return true if point is on the map and is terrain
 	 */
 	public boolean isTerrain(int x, int y)

@@ -7,21 +7,39 @@ import org.newdawn.slick.command.InputProviderListener;
 import pl.krzaku.proz.model.GameState;
 import pl.krzaku.proz.view.View;
 
+/**
+ * Main controller class which interpretates player input
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class MainController implements InputProviderListener
 {
+	///Input providing class
 	private PlayerInput playerInput;
+	///Game state to control
 	private GameState gameState;
+	///Game container from which input is being get
 	private GameContainer gameContainer;
+	///Game view (currently unused)
 	private View view;
 	
-	public MainController(GameContainer gameContainer, GameState argGameState, View argView)
+	/**
+	 * Constructor which initializes whole game controller part
+	 * @param gameContainer game container to get input from
+	 * @param gameState game state to control
+	 * @param view game view to control
+	 */
+	public MainController(GameContainer gameContainer, GameState gameState, View view)
 	{
 		this.gameContainer = gameContainer;
-		playerInput = new PlayerInput(gameContainer, this);
-		gameState = argGameState;
-		view = argView;		
+		this.playerInput = new PlayerInput(gameContainer, this);
+		this.gameState = gameState;
+		this.view = view;		
 	}
 	
+	/**
+	 * Invoked when player presses button which is binded to some command
+	 */
 	@Override
 	public void controlPressed(Command command)
 	{
@@ -62,6 +80,9 @@ public class MainController implements InputProviderListener
 		}
 	}
 
+	/**
+	 * Invoked when player releases button binded to some command
+	 */
 	@Override
 	public void controlReleased(Command command)
 	{

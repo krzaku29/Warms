@@ -4,17 +4,27 @@ import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.Renderable;
 import pl.krzaku.proz.view.SpriteID;
 
+/**
+ * Class for bullet shot from gun tower
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class GunBullet extends Bullet implements MapCollidable, ObjectCollidable, Renderable
 {
+	///Bullet sprite width
 	private final int bulletWidth = 3;
+	///Bullet sprite height
 	private final int bulletHeight = 3;
+	///Bullet explosion radius
 	private final int explosionRadius = 0;
 
-	public GunBullet()
-	{
-
-	}
-	
+	/**
+	 * Constructor. Sets basic parameters of bullet
+	 * @param posX X position of bullet
+	 * @param posY y position of bullet
+	 * @param velX velocity of bullet along X axis
+	 * @param velY velocity of bullet along Y axis
+	 */
 	public GunBullet(double posX, double posY, double velX, double velY)
 	{
 		positionX = posX;
@@ -48,13 +58,13 @@ public class GunBullet extends Bullet implements MapCollidable, ObjectCollidable
 	@Override
 	public int getMapCollisionXPoint()
 	{
-		return (int)positionX;
+		return (int)positionX+1;
 	}
 
 	@Override
 	public int getMapCollisionYPoint()
 	{
-		return (int)positionY;
+		return (int)positionY+1;
 	}
 
 	@Override

@@ -3,8 +3,21 @@ package pl.krzaku.proz.model;
 import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.SoundID;
 
+/**
+ * Class for calculating object collisions with a map
+ * @author Patryk Majkrzak
+ * @version 1.2
+ */
 public final class MapCollisionManager
 {
+	/**
+	 * Checks collision with terrain
+	 * @param gameState game state
+	 * @param map game map
+	 * @param object object to check for collision
+	 * @param deltaTime time elapsed from the last frame
+	 * @return true if collision happened
+	 */
 	public static boolean checkCollision(GameState gameState, GameMap map, MapCollidable object, double deltaTime)
 	{
 		if(object instanceof Tower)
@@ -27,6 +40,13 @@ public final class MapCollisionManager
 		return false;	
 	}
 	
+	/**
+	 * Checks for collision wit map border
+	 * @param map game map
+	 * @param object object to check for collision
+	 * @param deltaTime time elapsed from the last frame
+	 * @return true if map border collision happened
+	 */
 	public static boolean checkBorderCollision(GameMap map, MapBorderCollidable object, double deltaTime)
 	{
 		Rectangle mapBorder = new Rectangle(0,0,GameMap.getMapWidth(),GameMap.getMapHeight());

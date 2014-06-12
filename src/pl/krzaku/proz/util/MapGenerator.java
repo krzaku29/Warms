@@ -6,7 +6,7 @@ import pl.krzaku.proz.model.GameMap;
  * Map generator. Generates game maps using specified seed.
  * @author Patryk Majkrzak
  * @version 1.2
- */
+ */ 
 public class MapGenerator
 {
 	/**

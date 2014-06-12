@@ -28,9 +28,9 @@ public class ContentManager
 	 */
 	private void loadContent()
 	{
-		addMusic(MusicID.FIVE_ARMIES, "res/music/fivearmies.ogg");
 		addMusic(MusicID.FULL_ON, "res/music/fullon.ogg");
-
+		addMusic(MusicID.FIVE_ARMIES, "res/music/fivearmies.ogg");
+		
 		addSound(SoundID.MORTAR_SHOT, "res/sound/mortarshot.wav");
 		addSound(SoundID.MACHINE_GUN_SHOT, "res/sound/machinegunshot.wav");
 		addSound(SoundID.LASER_SHOT, "res/sound/lasershot.wav");
@@ -178,5 +178,5 @@ public class ContentManager
 		{
 	        jukebox.addSong(entry.getKey());
 	    }
-	}
+	} 
 }

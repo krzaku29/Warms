@@ -1,11 +1,23 @@
 package pl.krzaku.proz.view;
 
+/**
+ * Class for splash screens displayed on game window
+ * @author Patryk Majkrzak
+ * @version 1.0
+ */
 public class Splash implements Renderable
 {
+	///Splash window X position
 	private final int splashXPosition = 220;
+	///Splash window Y position
 	private final int splashYPosition = 172;
+	///Type of splash window
 	private int splashType;
 	
+	/** 
+	 * Constructor.
+	 * @param type splash window type
+	 */
 	public Splash(int type)
 	{
 		splashType = type;

@@ -2,8 +2,21 @@ package pl.krzaku.proz.model;
 
 import pl.krzaku.proz.util.Rectangle;
 
+/**
+ * Class for calculating object collisions
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class ObjectCollisionManager
 {
+	/**
+	 * Checks for collision of two objects
+	 * @param map game map
+	 * @param first first object
+	 * @param second second object
+	 * @param deltaTime time elapsed from last frame
+	 * @return true if collision happened
+	 */
 	public static boolean checkObjectCollision(GameMap map, ObjectCollidable first, ObjectCollidable second, double deltaTime)
 	{
 		Rectangle firstCollisionRectangle = first.getCollisionRectangle();

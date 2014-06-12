@@ -5,7 +5,7 @@ package pl.krzaku.proz.util;
  * 
  * @author Patryk Majkrzak
  *
- */
+ */ 
 public class Rectangle
 {
 	///Position of left upper corner of rectangle along X axis

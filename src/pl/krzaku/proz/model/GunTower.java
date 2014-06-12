@@ -7,13 +7,19 @@ import pl.krzaku.proz.view.Renderable;
 import pl.krzaku.proz.view.SoundID;
 import pl.krzaku.proz.view.SpriteID;
 
+/**
+ * Class for machine gun tower
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class GunTower extends Tower implements MapCollidable, Renderable, ObjectCollidable
 {
-	public GunTower()
-	{
-		
-	}
-	
+	/**
+	 * Constructor. Sets basic parameters
+	 * @param positionX X position of tower
+	 * @param positionY Y position of tower
+	 * @param flipped true if tower should start being turned to the right
+	 */
 	public GunTower(double positionX, double positionY, boolean flipped)
 	{
 		this.positionX = positionX;

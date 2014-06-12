@@ -10,7 +10,7 @@ import org.newdawn.slick.command.KeyControl;
 /**
  * Class for managing player input 
  * @author Patryk Majkrzak
- *
+ * @version 1.1
  */
 public class PlayerInput
 {

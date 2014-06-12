@@ -3,10 +3,22 @@ package pl.krzaku.proz.model;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Generates towers according to a seed
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class TowerGenerator
 {
+	///Distance of outermost tower from map edge
 	private static final int startXPosition = 15;
 	
+	/**
+	 * Returns an Y position of first non-terrain pixel on game map at specified X position
+	 * @param gameMap game map to check
+	 * @param position X position to search on
+	 * @return Y position of first non terrain pixel on the position
+	 */
 	private static int getGroundPosition(GameMap gameMap, int position)
 	{
 		int height = GameMap.getMapHeight()-1;
@@ -17,6 +29,14 @@ public class TowerGenerator
 		return height;
 	}
 	
+	/**
+	 * Generates towers for a player
+	 * @param gameMap game map
+	 * @param seed seed for generation
+	 * @param numberOfTowers how may towers to generate
+	 * @param playerNumber number of player to generate for
+	 * @return list of towers for specified player and seed
+	 */
 	public static LinkedList<Tower> generatePlayer(GameMap gameMap, int seed, int numberOfTowers, int playerNumber)
 	{
 		LinkedList<Tower> list = new LinkedList<Tower>();
@@ -30,18 +50,13 @@ public class TowerGenerator
 			xPosition = startXPosition;
 			delta = GameMap.getMapWidth()/3/numberOfTowers;
 		}
-		else if(playerNumber == 1) 
+		else 
 		{
 			seed = -seed;
 			flipped = false;
 			delta = GameMap.getMapWidth()/3/numberOfTowers;
 			
 			xPosition = GameMap.getMapWidth()-startXPosition -delta*(numberOfTowers-1);
-		}
-		else 
-		{
-			//FIXME
-			return list;
 		}
 		
 		Random r = new Random(seed);

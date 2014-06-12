@@ -1,13 +1,28 @@
 package pl.krzaku.proz.view;
 
+/**
+ * Class for object marker
+ * @author Patryk Majkrzak
+ * @version 1.0
+ */
 public class Marker implements Renderable
 {
+	///X position of marker
 	private double positionX;
+	///Y position of marker
 	private double positionY;
+	///Height of marker sprite
 	private final int markerWidth = 12;
+	///Width of marker sprite
 	private final int markerHeight = 8;
+	///Marker's sprite ID
 	private final SpriteID spriteID = SpriteID.MARKER;
 
+	/**
+	 * Constructor.
+	 * @param posX marker X position
+	 * @param posY marker Y position
+	 */
 	public Marker(double posX, double posY)
 	{
 		positionX = posX;

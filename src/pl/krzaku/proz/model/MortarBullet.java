@@ -4,16 +4,27 @@ import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.Renderable;
 import pl.krzaku.proz.view.SpriteID;
 
+/**
+ * Class for bullet shot from mortar tower
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class MortarBullet extends Bullet implements MapCollidable, ObjectCollidable, Renderable
 {
+	///Bullet sprite height
 	private final int bulletWidth = 3;
+	///Bullet sprite width
 	private final int bulletHeight = 3;
+	///Bullet explosion radius
 	private final int explosionRadius = 40;
-	public MortarBullet()
-	{
 
-	}
-	
+	/**
+	 * Constructor. Sets basic parameters of bullet
+	 * @param posX X position of bullet
+	 * @param posY y position of bullet
+	 * @param velX velocity of bullet along X axis
+	 * @param velY velocity of bullet along Y axis
+	 */
 	public MortarBullet(double posX, double posY, double velX, double velY)
 	{
 		positionX = posX;

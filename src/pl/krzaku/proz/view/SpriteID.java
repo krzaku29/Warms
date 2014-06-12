@@ -1,5 +1,10 @@
 package pl.krzaku.proz.view;
 
+/**
+ * Enum containing sprite IDs
+ * @author Patryk Majkrzak
+ * @version 1.3
+ */
 public enum SpriteID
 {
 	BULLET_LASER,

@@ -7,13 +7,19 @@ import pl.krzaku.proz.view.Renderable;
 import pl.krzaku.proz.view.SoundID;
 import pl.krzaku.proz.view.SpriteID;
 
+/**
+ * Class for laser tower
+ * @author Patryk Majkrzak
+ * @version 1.1
+ */
 public class LaserTower extends Tower implements Renderable, MapCollidable, ObjectCollidable
 {	
-	public LaserTower()
-	{
-		
-	}
-	
+	/**
+	 * Constructor. Sets basic parameters
+	 * @param positionX X position of tower
+	 * @param positionY Y position of tower
+	 * @param flipped true if tower should start being turned to the right
+	 */
 	public LaserTower(double positionX, double positionY, boolean flipped)
 	{
 		this.positionX = positionX;

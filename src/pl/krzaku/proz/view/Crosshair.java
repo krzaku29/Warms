@@ -1,11 +1,24 @@
 package pl.krzaku.proz.view;
 
+/**
+ * Towers crosshair class
+ * @author Patryk Majkrzak
+ * @version 1.0
+ */
 public class Crosshair implements Renderable
 {
+	///X position of crosshair
 	private double positionX;
+	///Y position of crosshair
 	private double positionY;
+	///Crosshair sprite
 	private final SpriteID spriteID = SpriteID.CROSSHAIR;
 	
+	/**
+	 * Constructor.
+	 * @param posX X position of crosshair
+	 * @param posY Y position of crosshair
+	 */
 	public Crosshair(double posX, double posY)
 	{
 		positionX = posX;

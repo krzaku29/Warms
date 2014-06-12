@@ -15,11 +15,20 @@ import pl.krzaku.proz.Game;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Game launcher class
+ * @author Patryk Majkrzak
+ * @version 1.0
+ */
 public class Launcher implements ActionListener
 {
+	///Resolutions list
 	private JList<Resolution> list;
+	///Launcher frame
 	private JFrame frmWarmsLauncher;
+	///Text field for map seed
 	private JTextField seedTextField;
+	///Text field for number of towers in the game
 	private JTextField towerNumberTextField;
 
 	/**
@@ -58,8 +67,9 @@ public class Launcher implements ActionListener
 	private void initialize()
 	{
 		frmWarmsLauncher = new JFrame();
-		frmWarmsLauncher.setTitle("Warms Launcher");
+		frmWarmsLauncher.setTitle("Warms Launch");
 		frmWarmsLauncher.setBounds(100, 100, 236, 260);
+		frmWarmsLauncher.setResizable(false);
 		frmWarmsLauncher.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmWarmsLauncher.getContentPane().setLayout(null);
 		
@@ -96,15 +106,15 @@ public class Launcher implements ActionListener
 		frmWarmsLauncher.getContentPane().add(towerNumberTextField);
 		towerNumberTextField.setColumns(10);
 		
-		JLabel lblMapSeed = new JLabel("Map seed");
+		JLabel lblMapSeed = new JLabel("Seed mapy");
 		lblMapSeed.setBounds(10, 12, 63, 14);
 		frmWarmsLauncher.getContentPane().add(lblMapSeed);
 		
-		JLabel lblNumberOfTowers = new JLabel("Number of towers");
+		JLabel lblNumberOfTowers = new JLabel("Iloœæ wie¿");
 		lblNumberOfTowers.setBounds(10, 40, 107, 14);
 		frmWarmsLauncher.getContentPane().add(lblNumberOfTowers);
 		
-		JLabel lblScreenResolution = new JLabel("Screen resolution");
+		JLabel lblScreenResolution = new JLabel("Rozdzielczoœæ");
 		lblScreenResolution.setBounds(10, 76, 113, 14);
 		frmWarmsLauncher.getContentPane().add(lblScreenResolution);
 	}
