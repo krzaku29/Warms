@@ -34,8 +34,9 @@ public class TowerGenerator
 		{
 			seed = -seed;
 			flipped = false;
-			xPosition = GameMap.getMapWidth()-startXPosition;
-			delta = -GameMap.getMapWidth()/3/numberOfTowers;
+			delta = GameMap.getMapWidth()/3/numberOfTowers;
+			
+			xPosition = GameMap.getMapWidth()-startXPosition -delta*(numberOfTowers-1);
 		}
 		else 
 		{
