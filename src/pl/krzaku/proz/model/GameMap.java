@@ -95,9 +95,15 @@ public class GameMap
 	 */
 	public boolean isTerrain(int x, int y)
 	{
-		if (x >= 0 && x <= mapWidth && y >= 0 && y <= mapHeight)
-			return imageForDrawing.getColor(x, y).equals(new Color(redMapColor, greenMapColor, blueMapColor, 255));
-		return false;
+		if(modified)
+		{
+			imageForDrawing = mapImage.getImage();
+			imageForDrawing.setFilter(Image.FILTER_NEAREST);
+			modified = false;
+		}
+		if(x<0 || x >= mapWidth || y < 0 || y >= mapHeight) return true;
+		
+		return imageForDrawing.getColor(x, y).equals(new Color(redMapColor, greenMapColor, blueMapColor, 255));
 	}
 
 	/**

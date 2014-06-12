@@ -13,5 +13,6 @@ public enum SpriteID
 	TOWER_NORMAL,
 	TOWER_REPULSOR,
 	
-	MARKER
+	MARKER,
+	CROSSHAIR
 }

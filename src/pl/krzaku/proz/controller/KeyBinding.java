@@ -4,13 +4,14 @@ import org.newdawn.slick.Input;
 
 public final class KeyBinding
 {
-	private int keyMorePower;
-	private int keyLessPower;
-	private int keyLeftRotate;
-	private int keyRightRotate;
-	private int keyNextTower;
-	private int keyExit;
-	private int keyShoot;
+	private int[] keyMorePower = {Input.KEY_R, Input.KEY_UP};
+	private int[] keyLessPower = {Input.KEY_F, Input.KEY_DOWN};
+	private int[] keyLeftRotate = {Input.KEY_D, Input.KEY_LEFT};
+	private int[] keyRightRotate = {Input.KEY_G, Input.KEY_RIGHT};
+	private int[] keyNextTower = {Input.KEY_W, Input.KEY_PERIOD};
+	private int[] keyPrevTower = {Input.KEY_Q, Input.KEY_COMMA};
+	private int[] keyShoot = {Input.KEY_E, Input.KEY_SLASH};
+	private int keyExit = Input.KEY_ESCAPE;
 	
 	private static volatile KeyBinding singletonInstance = null;
 	
@@ -31,38 +32,37 @@ public final class KeyBinding
 	
 	private KeyBinding()
 	{
-		keyMorePower = Input.KEY_UP;
-		keyLessPower = Input.KEY_DOWN;
-		keyLeftRotate = Input.KEY_LEFT;
-		keyRightRotate = Input.KEY_RIGHT;
-		keyNextTower = Input.KEY_A;
-		keyExit = Input.KEY_ESCAPE;
-		keyShoot = Input.KEY_S;
+
 	}
 
-	public int getKeyMorePower()
+	public int getKeyMorePower(int playerNumber)
 	{
-		return keyMorePower;
+		return keyMorePower[playerNumber];
 	}
 
-	public int getKeyLessPower()
+	public int getKeyLessPower(int playerNumber)
 	{
-		return keyLessPower;
+		return keyLessPower[playerNumber];
 	}
 
-	public int getKeyLeftRotate()
+	public int getKeyLeftRotate(int playerNumber)
 	{
-		return keyLeftRotate;
+		return keyLeftRotate[playerNumber];
 	}
 
-	public int getKeyRightRotate()
+	public int getKeyRightRotate(int playerNumber)
 	{
-		return keyRightRotate;
+		return keyRightRotate[playerNumber];
 	}
 
-	public int getKeyNextTower()
+	public int getKeyNextTower(int playerNumber)
 	{
-		return keyNextTower;
+		return keyNextTower[playerNumber];
+	}
+	
+	public int getKeyPrevTower(int playerNumber)
+	{
+		return keyPrevTower[playerNumber];
 	}
 
 	public int getKeyExit()
@@ -70,8 +70,8 @@ public final class KeyBinding
 		return keyExit;
 	}
 
-	public int getKeyShoot()
+	public int getKeyShoot(int playerNumber)
 	{
-		return keyShoot;
+		return keyShoot[playerNumber];
 	}	
 }

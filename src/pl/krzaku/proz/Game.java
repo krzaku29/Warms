@@ -6,12 +6,9 @@ package pl.krzaku.proz;
 
 import org.newdawn.slick.*;
 
-import pl.krzaku.proz.util.Rectangle;
-import pl.krzaku.proz.view.SpriteID;
 import pl.krzaku.proz.view.View;
 import pl.krzaku.proz.controller.MainController;
 import pl.krzaku.proz.model.GameState;
-import pl.krzaku.proz.model.LaserBullet;
 
 /**
  * Main game class. Starting point for everything else.
@@ -60,7 +57,7 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer arg0) throws SlickException
 	{
-		gameState = new GameState(1000);
+		gameState = new GameState(666,3);
 		gameView = new View(gameState, 683, 384, 1366, 768);
 		mainController = new MainController(appGameContainer, gameState, gameView);
 	}

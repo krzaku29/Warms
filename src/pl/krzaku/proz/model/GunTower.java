@@ -1,7 +1,10 @@
 package pl.krzaku.proz.model;
 
+import org.newdawn.slick.util.FastTrig;
+
 import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.Renderable;
+import pl.krzaku.proz.view.SoundID;
 import pl.krzaku.proz.view.SpriteID;
 
 public class GunTower extends Tower implements MapCollidable, Renderable, ObjectCollidable
@@ -15,8 +18,8 @@ public class GunTower extends Tower implements MapCollidable, Renderable, Object
 	{
 		this.positionX = positionX;
 		this.positionY = positionY;
-		this.minAngle = 0;
-		this.maxAngle = 180;
+		this.minAngle = -45;
+		this.maxAngle = 225;
 		this.gravityAcceleration = 40;
 		this.shootPower = 0.5;
 		this.health = 100;
@@ -24,22 +27,27 @@ public class GunTower extends Tower implements MapCollidable, Renderable, Object
 		else this.inclinationAngle = minAngle;
 		this.active = true;
 		this.falling = false;
+		
+		minBulletSpeed = 150;
+		maxBulletSpeed = 300;
+		currentCooldown = 0;
+		shootCooldown = 0.1;
 	}
-
+	
 	@Override
-	public void rotate(float angle)
+	public void shoot(GameState gameState)
 	{
-		inclinationAngle += angle;
-		if(inclinationAngle > maxAngle) inclinationAngle = maxAngle;
-		if(inclinationAngle < minAngle) inclinationAngle = minAngle;
-	}
-
-	@Override
-	public void changeShootPower(float amount)
-	{
-		shootPower += amount;
-		if(shootPower > 1.0) shootPower = 1.0;
-		if(shootPower < 0.0) shootPower = 0.0;		
+		if(currentCooldown == 0)
+		{
+			double bulletSpawnX = this.getCenterXPosition() - 20 * FastTrig.cos(Math.toRadians(inclinationAngle));
+			double bulletSpawnY = this.getCenterYPosition() - 20 * FastTrig.sin(Math.toRadians(inclinationAngle));
+			double bulletSpeedX = -(minBulletSpeed + shootPower *(maxBulletSpeed - minBulletSpeed)) * FastTrig.cos(Math.toRadians(inclinationAngle));
+			double bulletSpeedY = -(minBulletSpeed + shootPower *(maxBulletSpeed - minBulletSpeed)) * FastTrig.sin(Math.toRadians(inclinationAngle));
+			
+			gameState.addBullet(new GunBullet(bulletSpawnX, bulletSpawnY, bulletSpeedX, bulletSpeedY));
+			gameState.soundPlayed(SoundID.MACHINE_GUN_SHOT);
+			currentCooldown = shootCooldown;
+		}
 	}
 
 	@Override
@@ -94,17 +102,6 @@ public class GunTower extends Tower implements MapCollidable, Renderable, Object
 		falling = false;
 		if(velocityY > 50) health -= velocityY/5;
 		velocityY=0;
-	}
-
-	@Override
-	public void update(double deltaTime)
-	{
-		if(falling)
-		{
-			positionY += velocityY*deltaTime;
-			velocityY += gravityAcceleration*deltaTime;
-		}
-		if(health < 0) deactivate();
 	}
 	
 	@Override

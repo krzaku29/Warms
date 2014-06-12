@@ -1,10 +1,11 @@
 package pl.krzaku.proz.model;
 
 import pl.krzaku.proz.util.Rectangle;
+import pl.krzaku.proz.view.SoundID;
 
 public final class MapCollisionManager
 {
-	public static boolean checkCollision(GameMap map, MapCollidable object, double deltaTime)
+	public static boolean checkCollision(GameState gameState, GameMap map, MapCollidable object, double deltaTime)
 	{
 		if(object instanceof Tower)
 		{
@@ -19,6 +20,7 @@ public final class MapCollisionManager
 		else if(map.isTerrain(object.getMapCollisionXPoint(), object.getMapCollisionYPoint())) 
 		{
 			object.actOnMapCollision(deltaTime);
+			if(!(object instanceof GunBullet) && !(object instanceof LaserBullet)) gameState.soundPlayed(SoundID.EXPLOSION);
 			map.destroyTerrain(object.getMapCollisionXPoint(), object.getMapCollisionYPoint(), object.getMapExplosionRadius());
 			return true;
 		}

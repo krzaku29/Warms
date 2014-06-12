@@ -1,7 +1,10 @@
 package pl.krzaku.proz.model;
 
+import org.newdawn.slick.util.FastTrig;
+
 import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.Renderable;
+import pl.krzaku.proz.view.SoundID;
 import pl.krzaku.proz.view.SpriteID;
 
 public class MortarTower extends Tower implements MapCollidable, ObjectCollidable, Renderable
@@ -24,24 +27,29 @@ public class MortarTower extends Tower implements MapCollidable, ObjectCollidabl
 		else this.inclinationAngle = minAngle;
 		this.active = true;
 		this.falling = false;
+		
+		minBulletSpeed = 50;
+		maxBulletSpeed = 270;
+		currentCooldown = 0;
+		shootCooldown = 2;
 	}
 
 	@Override
-	public void rotate(float angle)
+	public void shoot(GameState gameState)
 	{
-		inclinationAngle += angle;
-		if(inclinationAngle > maxAngle) inclinationAngle = maxAngle;
-		if(inclinationAngle < minAngle) inclinationAngle = minAngle;
+		if(currentCooldown == 0)
+		{
+			double bulletSpawnX = this.getCenterXPosition() - 20 * FastTrig.cos(Math.toRadians(inclinationAngle));
+			double bulletSpawnY = this.getCenterYPosition() - 20 * FastTrig.sin(Math.toRadians(inclinationAngle));
+			double bulletSpeedX = -(minBulletSpeed + shootPower *(maxBulletSpeed - minBulletSpeed)) * FastTrig.cos(Math.toRadians(inclinationAngle));
+			double bulletSpeedY = -(minBulletSpeed + shootPower *(maxBulletSpeed - minBulletSpeed)) * FastTrig.sin(Math.toRadians(inclinationAngle));
+			
+			gameState.addBullet(new MortarBullet(bulletSpawnX, bulletSpawnY, bulletSpeedX, bulletSpeedY));
+			gameState.soundPlayed(SoundID.MORTAR_SHOT);
+			currentCooldown = shootCooldown;
+		}
 	}
-
-	@Override
-	public void changeShootPower(float amount)
-	{
-		shootPower += amount;
-		if(shootPower > 1.0) shootPower = 1.0;
-		if(shootPower < 0.0) shootPower = 0.0;		
-	}
-
+	
 	@Override
 	public SpriteID getSpriteID()
 	{
@@ -96,16 +104,6 @@ public class MortarTower extends Tower implements MapCollidable, ObjectCollidabl
 		velocityY=0;
 	}
 
-	@Override
-	public void update(double deltaTime)
-	{
-		if(falling)
-		{
-			positionY += velocityY*deltaTime;
-			velocityY += gravityAcceleration*deltaTime;
-		}
-		if(health < 0) deactivate();
-	}
 	
 	@Override
 	public boolean isFlipped()

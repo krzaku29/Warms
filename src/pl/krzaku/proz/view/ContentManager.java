@@ -23,6 +23,41 @@ public class ContentManager
 	///Set of loaded sprites
 	private Map<SpriteID, SpriteSheet> spriteList;
 	
+	/**
+	 * Content loading method
+	 */
+	private void loadContent()
+	{
+		addMusic(MusicID.FIVE_ARMIES, "res/music/fivearmies.ogg");
+		addMusic(MusicID.FULL_ON, "res/music/fullon.ogg");
+
+		addSound(SoundID.MORTAR_SHOT, "res/sound/mortarshot.wav");
+		addSound(SoundID.MACHINE_GUN_SHOT, "res/sound/machinegunshot.wav");
+		addSound(SoundID.LASER_SHOT, "res/sound/lasershot.wav");
+		addSound(SoundID.NORMAL_SHOT, "res/sound/tankshot.wav");
+		addSound(SoundID.EXPLOSION, "res/sound/explosion.wav");
+
+		addSprite(SpriteID.TOWER_LASER, "res/sprites/laser.png", 16, 24);
+		addSprite(SpriteID.TOWER_REPULSOR, "res/sprites/magnes.png",
+				16, 24);
+		addSprite(SpriteID.TOWER_GUN, "res/sprites/karabin.png", 16, 24);
+		addSprite(SpriteID.TOWER_MORTAR, "res/sprites/mozdzierz.png",
+				16, 24);
+		addSprite(SpriteID.TOWER_NORMAL, "res/sprites/czolg.png", 16,
+				24);
+
+		addSprite(SpriteID.BULLET_LASER, "res/sprites/laserbullet.png",
+				3, 3);
+		addSprite(SpriteID.BULLET_GUN, "res/sprites/gunbullet.png", 3,
+				3);
+		addSprite(SpriteID.BULLET_MORTAR,
+				"res/sprites/mortarbullet.png", 3, 3);
+		addSprite(SpriteID.BULLET_NORMAL,
+				"res/sprites/normalbullet.png", 3, 3);
+
+		addSprite(SpriteID.MARKER, "res/sprites/marker.png", 12, 8);
+		addSprite(SpriteID.CROSSHAIR, "res/sprites/crosshair.png", 3, 3);
+	}
 	
 	/**
 	 * Default constructor
@@ -32,6 +67,7 @@ public class ContentManager
 		musicList = new HashMap<MusicID, Music>();
 		soundList = new HashMap<SoundID, Sound>();	
 		spriteList = new HashMap<SpriteID, SpriteSheet>();
+		loadContent();
 	}
 	
 	/**
@@ -126,5 +162,16 @@ public class ContentManager
 		if(spr == null) throw new ContentNotFoundException(id.toString());
 		Image image = spr.getSubImage(number, 0);
 		return image;
+	}
+	/**
+	 * This method packs jukebox's playlist with all the music in this manager
+	 * @param jukebox jukebox for loading music into
+	 */
+	public void loadJukebox(Jukebox jukebox)
+	{
+		for (Map.Entry<MusicID, Music> entry : musicList.entrySet()) 
+		{
+	        jukebox.addSong(entry.getKey());
+	    }
 	}
 }

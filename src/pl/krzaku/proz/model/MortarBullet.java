@@ -9,8 +9,6 @@ public class MortarBullet extends Bullet implements MapCollidable, ObjectCollida
 	private final int bulletWidth = 3;
 	private final int bulletHeight = 3;
 	private final int explosionRadius = 40;
-	private final double gravityAcceleration = 40;
-	
 	public MortarBullet()
 	{
 

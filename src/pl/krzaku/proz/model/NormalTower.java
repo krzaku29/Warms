@@ -1,7 +1,10 @@
 package pl.krzaku.proz.model;
 
+import org.newdawn.slick.util.FastTrig;
+
 import pl.krzaku.proz.util.Rectangle;
 import pl.krzaku.proz.view.Renderable;
+import pl.krzaku.proz.view.SoundID;
 import pl.krzaku.proz.view.SpriteID;
 
 public class NormalTower extends Tower implements MapCollidable, ObjectCollidable, Renderable
@@ -15,8 +18,8 @@ public class NormalTower extends Tower implements MapCollidable, ObjectCollidabl
 	{
 		this.positionX = positionX;
 		this.positionY = positionY;
-		this.minAngle = 0;
-		this.maxAngle = 180;
+		this.minAngle = -20;
+		this.maxAngle = 200;
 		this.gravityAcceleration = 40;
 		this.shootPower = 0.5;
 		this.health = 100;
@@ -24,24 +27,29 @@ public class NormalTower extends Tower implements MapCollidable, ObjectCollidabl
 		else this.inclinationAngle = minAngle;
 		this.active = true;
 		this.falling = false;
+		
+		minBulletSpeed = 50;
+		maxBulletSpeed = 270;
+		currentCooldown = 0;
+		shootCooldown = 0.7;
 	}
-
+	
 	@Override
-	public void rotate(float angle)
+	public void shoot(GameState gameState)
 	{
-		inclinationAngle += angle;
-		if(inclinationAngle > maxAngle) inclinationAngle = maxAngle;
-		if(inclinationAngle < minAngle) inclinationAngle = minAngle;
+		if(currentCooldown == 0)
+		{
+			double bulletSpawnX = this.getCenterXPosition() - 20 * FastTrig.cos(Math.toRadians(inclinationAngle));
+			double bulletSpawnY = this.getCenterYPosition() - 20 * FastTrig.sin(Math.toRadians(inclinationAngle));
+			double bulletSpeedX = -(minBulletSpeed + shootPower *(maxBulletSpeed - minBulletSpeed)) * FastTrig.cos(Math.toRadians(inclinationAngle));
+			double bulletSpeedY = -(minBulletSpeed + shootPower *(maxBulletSpeed - minBulletSpeed)) * FastTrig.sin(Math.toRadians(inclinationAngle));
+			
+			gameState.addBullet(new NormalBullet(bulletSpawnX, bulletSpawnY, bulletSpeedX, bulletSpeedY));
+			gameState.soundPlayed(SoundID.NORMAL_SHOT);
+			currentCooldown = shootCooldown;
+		}
 	}
-
-	@Override
-	public void changeShootPower(float amount)
-	{
-		shootPower += amount;
-		if(shootPower > 1.0) shootPower = 1.0;
-		if(shootPower < 0.0) shootPower = 0.0;		
-	}
-
+	
 	@Override
 	public SpriteID getSpriteID()
 	{
@@ -96,16 +104,7 @@ public class NormalTower extends Tower implements MapCollidable, ObjectCollidabl
 		velocityY=0;
 	}
 
-	@Override
-	public void update(double deltaTime)
-	{
-		if(falling)
-		{
-			positionY += velocityY*deltaTime;
-			velocityY += gravityAcceleration*deltaTime;
-		}
-		if(health < 0) deactivate();
-	}
+	
 	
 	@Override
 	public boolean isFlipped()

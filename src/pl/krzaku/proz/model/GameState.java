@@ -5,32 +5,28 @@ import java.util.*;
 import org.newdawn.slick.Image;
 
 import pl.krzaku.proz.util.MapGenerator;
+import pl.krzaku.proz.view.Crosshair;
 import pl.krzaku.proz.view.Layout;
+import pl.krzaku.proz.view.Marker;
 import pl.krzaku.proz.view.Renderable;
+import pl.krzaku.proz.view.SoundID;
 
 
 public class GameState
 {
+	private final int numberOfPlayers = 2;
 	private GameMap gameMap;
-	private LinkedList<Tower> towerList;
+	private TowerManager towers;
 	private LinkedList<Bullet> bulletList;
+	private LinkedList<SoundID> soundBuffer;
 	
-	private boolean activeTowerRotateLeft;
-	private boolean activeTowerRotateRight;
-	private boolean activeTowerMorePower;
-	private boolean activeTowerLessPower;
-	private Tower activeTower;
 	
-	public GameState(int mapSeed)
+	public GameState(int mapSeed, int numberOfTowers)
 	{
-		towerList = new LinkedList<Tower>();
-		bulletList = new LinkedList<Bullet>();
 		gameMap = MapGenerator.getMap(mapSeed, GameMap.getMapWidth(), GameMap.getMapHeight());
-		
-		activeTowerLessPower = false;
-		activeTowerMorePower = false;
-		activeTowerRotateLeft = false;
-		activeTowerRotateRight = false;		
+		towers = new TowerManager(gameMap, mapSeed, numberOfTowers, numberOfPlayers, this);
+		bulletList = new LinkedList<Bullet>();
+		soundBuffer = new LinkedList<SoundID>();
 	}
 	
 	public void addBullet(Bullet add)
@@ -38,46 +34,37 @@ public class GameState
 		bulletList.add(add);
 	}
 	
-	public void addTower(Tower add)
-	{
-		towerList.add(add);
-	}
-	
 	public void updateGameState(int delta)
 	{
-		double dt = delta/1000d;
+		double deltaTime = delta/1000d;
+		
+		
 		ListIterator<Bullet> bulletListIterator = bulletList.listIterator();
 		Bullet currentBullet;
-		ListIterator<Tower> towerListIterator = towerList.listIterator();
-		Tower currentTower;
 		
 		while(bulletListIterator.hasNext())
 		{
 			currentBullet = bulletListIterator.next();
-			currentBullet.update(dt);
-			if(currentBullet instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentBullet, dt);
-			if(currentBullet instanceof MapCollidable) MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentBullet, dt);
+			currentBullet.update(deltaTime);
+			if(currentBullet instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentBullet, deltaTime);
+			if(currentBullet instanceof MapCollidable) MapCollisionManager.checkCollision(this, gameMap, (MapCollidable)currentBullet, deltaTime);
 			if(currentBullet instanceof ObjectCollidable)
 			{
-				ListIterator<Tower> iterator = towerList.listIterator();
-				Tower tower;
-				while(iterator.hasNext())
+				for(int i = 0; i < numberOfPlayers; i++)
 				{
-					tower = iterator.next();
-					ObjectCollisionManager.checkObjectCollision(gameMap, (ObjectCollidable)currentBullet, (ObjectCollidable)tower, dt);
-				}				
+					ListIterator<Tower> iterator = towers.getTowerList(i).listIterator();
+					Tower tower;
+					while(iterator.hasNext())
+					{
+						tower = iterator.next();
+						ObjectCollisionManager.checkObjectCollision(gameMap, (ObjectCollidable)currentBullet, (ObjectCollidable)tower, deltaTime);
+					}	
+				}
 			}
 			if(!currentBullet.isActive()) bulletListIterator.remove();
 		}
 		
-		while(towerListIterator.hasNext())
-		{
-			currentTower = towerListIterator.next();
-			currentTower.update(dt);
-			if(currentTower instanceof MapBorderCollidable) MapCollisionManager.checkBorderCollision(gameMap, (MapBorderCollidable)currentTower, dt);
-			if(currentTower instanceof MapCollidable) MapCollisionManager.checkCollision(gameMap, (MapCollidable)currentTower, dt);
-			if(!currentTower.isActive()) towerListIterator.remove();
-		}
+		towers.update(deltaTime);
 		
 	}
 	
@@ -85,10 +72,12 @@ public class GameState
 	{
 		Layout l = new Layout();
 		Bullet bullet;
-		Tower tower;
+		SoundID sound;
 		
 		ListIterator<Bullet> bulletIterator = bulletList.listIterator();
-		ListIterator<Tower> towerIterator = towerList.listIterator();
+		ListIterator<SoundID> soundIterator = soundBuffer.listIterator();
+
+		towers.addTowersToLayout(l);
 		
 		while(bulletIterator.hasNext())
 		{
@@ -96,11 +85,13 @@ public class GameState
 			l.add((Renderable)bullet);
 		}
 		
-		while(towerIterator.hasNext())
+		while(soundIterator.hasNext())
 		{
-			tower = towerIterator.next();
-			l.add((Renderable)tower);
+			sound = soundIterator.next();
+			l.addSound(sound);
 		}
+		
+		soundBuffer.clear();		
 		
 		return l;
 	}
@@ -110,25 +101,49 @@ public class GameState
 		return gameMap.getImage();
 	}
 	
-	public void setActiveTowerRotateLeft(boolean activeTowerRotateLeft)
+	public void soundPlayed(SoundID sound)
 	{
-		this.activeTowerRotateLeft = activeTowerRotateLeft;
-	}
-
-	public void setActiveTowerRotateRight(boolean activeTowerRotateRight)
-	{
-		this.activeTowerRotateRight = activeTowerRotateRight;
-	}
-
-	public void setActiveTowerMorePower(boolean activeTowerMorePower)
-	{
-		this.activeTowerMorePower = activeTowerMorePower;
-	}
-
-	public void setActiveTowerLessPower(boolean activeTowerLessPower)
-	{
-		this.activeTowerLessPower = activeTowerLessPower;
+		soundBuffer.add(sound);
 	}
 	
+	
+	public void setActiveTowerRotateLeft(boolean activeTowerRotateLeft, int playerNumber)
+	{
+		towers.setActiveTowerRotateLeft(activeTowerRotateLeft, playerNumber);
+	}
+
+	public void setActiveTowerRotateRight(boolean activeTowerRotateRight, int playerNumber)
+	{
+		towers.setActiveTowerRotateRight(activeTowerRotateRight, playerNumber);
+	}
+
+	public void setActiveTowerMorePower(boolean activeTowerMorePower, int playerNumber)
+	{
+		towers.setActiveTowerMorePower(activeTowerMorePower, playerNumber);
+	}
+
+	public void setActiveTowerLessPower(boolean activeTowerLessPower, int playerNumber)
+	{
+		towers.setActiveTowerLessPower(activeTowerLessPower, playerNumber);
+	}
+	public void setActiveTowerShooting(boolean activeTowerShooting, int playerNumber)
+	{
+		towers.setActiveTowerShooting(activeTowerShooting, playerNumber);
+	}
+	
+	public void nextTower(int playerNumber)
+	{
+		towers.nextTower(playerNumber);
+	}
+	
+	public void previousTower(int playerNumber)
+	{
+		towers.previousTower(playerNumber);
+	}
+	
+	public int getNumberOfPlayers()
+	{
+		return numberOfPlayers;
+	}
 	
 }

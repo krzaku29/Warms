@@ -9,8 +9,7 @@ public class GunBullet extends Bullet implements MapCollidable, ObjectCollidable
 	private final int bulletWidth = 3;
 	private final int bulletHeight = 3;
 	private final int explosionRadius = 0;
-	private final double gravityAcceleration = 40;
-	
+
 	public GunBullet()
 	{
 

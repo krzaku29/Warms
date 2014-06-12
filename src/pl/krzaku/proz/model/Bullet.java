@@ -10,6 +10,7 @@ public abstract class Bullet implements Renderable
 	protected double velocityY;
 	protected double damage;
 	protected boolean active;
+	protected final double gravityAcceleration = 100;
 	
 	public abstract void update(double deltaTime);
 	
